@@ -2,6 +2,8 @@ import base64
 import time
 import logging
 import json
+import os
+
 import requests
 from contextlib import contextmanager
 from requests.adapters import HTTPAdapter
@@ -21,6 +23,7 @@ _logger = logging.getLogger(__name__)
 
 _DEFAULT_HEADERS = {"User-Agent": "mlflow-python-client/%s" % __version__}
 
+_DEFAULT_COOKIES = {"SAAGIETOKENSAAGIE": os.environ["SAAGIE_TOKEN"]}
 
 def http_request(
     host_creds, endpoint, retries=3, retry_interval=3, max_rate_limit_interval=60, **kwargs
@@ -57,6 +60,8 @@ def http_request(
 
     if host_creds.client_cert_path is not None:
         kwargs["cert"] = host_creds.client_cert_path
+
+    kwargs['cookies'] = _DEFAULT_COOKIES
 
     def request_with_ratelimit_retries(max_rate_limit_interval, **kwargs):
         response = requests.request(**kwargs)
