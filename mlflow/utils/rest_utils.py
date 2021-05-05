@@ -22,7 +22,7 @@ _logger = logging.getLogger(__name__)
 
 _DEFAULT_HEADERS = {"User-Agent": "mlflow-python-client/%s" % __version__}
 
-_DEFAULT_COOKIES = {"SAAGIETOKENSAAGIE": os.environ["SAAGIE_TOKEN"]}
+_DEFAULT_COOKIES = json.loads(os.environ['SAAGIE_COOKIE'])
 
 
 def http_request(
